@@ -35,7 +35,7 @@ int main() {
     };
 
     // Chamada da funcao
-    std::vector<int> impares = identificarVerticesImpares(grafo);
+    std::vector<int> impares = identificaVerticesImpares(grafo);
 
     // Exibindo o conjunto de vértices ímpares
     std::cout << "Vertices de grau impar: { ";
