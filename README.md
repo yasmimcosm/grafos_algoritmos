@@ -25,3 +25,11 @@ O trabalho consiste na implementação e análise experimental de algoritmos apl
   - Avaliação de esforço computacional
 
 ---
+
+- **Como Rodar? **
+  - Estando na pasta /src, digite o seguinte comando:
+  ```bash
+  g++ main.cpp Grafo.cpp GeradorGrafo.cpp PccSolver.cpp -o programa
+  ``` 
+
+  Todos os arquivos sem ser a main podem ser compilados ou não. Depende das funcionalidades que a main usa. 
