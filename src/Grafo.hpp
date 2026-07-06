@@ -2,7 +2,8 @@
 #define GRAFO_HPP
 
 #include <vector>
-#include <utility> // Para usar std::pair
+#include <utility> // Para usar pair
+using namespace std;
 
 class Grafo {
 private:
@@ -10,7 +11,7 @@ private:
     
     // Lista de adjacência: uma lista que guarda várias listas
     // cada lista dentro da lista principal representa um vértices e seus elementos são seus vértices vizinhos
-    std::vector<std::vector<std::pair<int, int>>> listaAdjacencia;
+    vector<vector<pair<int, int>>> listaAdjacencia;
 
 public:
     // Construtor
@@ -26,10 +27,10 @@ public:
     int getGrau(int vertice) const;
 
     // Retorna uma lista com os vértices adjacentes
-    std::vector<int> getVerticesImpares() const;
+    const vector<pair<int, int>> getVerticesImpares() const;
 
     // retorna a listaAdjacência mais atual
-    const std::vector<std::vector<std::pair<int, int>>>& getListaAdjacencia() const;
+    const vector<vector<pair<int, int>>>& getListaAdjacencia() const;
 
     void imprimir() const;
 };

@@ -1,11 +1,12 @@
 #include "Grafo.hpp"
 #include <iostream>
-
+using namespace std;
 // Construtor 
 Grafo::Grafo(int vertices) {
     this->numVertices = vertices;
     this->listaAdjacencia.resize(vertices);
 }
+
 
 // Adiciona uma aresta entre cada par de vértices selecionados 
 void Grafo::adicionarAresta(int u, int v, int peso) {
@@ -19,7 +20,7 @@ int Grafo::getNumVertices() const{
 }
 
 // Retorna o a lista adjacência (grafo)
-const std::vector<std::vector<std::pair<int, int>>>& Grafo::getListaAdjacencia() const {
+const vector<vector<pair<int, int>>>& Grafo::getListaAdjacencia() const {
     return listaAdjacencia;
 }
 
@@ -29,14 +30,15 @@ int Grafo::getGrau(int vertice) const{
 }
 
 // retorna uma lista com todos os graus impares
-std::vector<int> Grafo::getVerticesImpares() const {
-    std::vector<int> impares;
+const vector<pair<int, int>> Grafo::getVerticesImpares() const {
+    vector<pair<int, int>> impares;
     int numVertices = getNumVertices();
 
     for (int i = 0; i < numVertices; ++i) {
         // Se o grau do vértice 'i' for ímpar
         if (getGrau(i) % 2 != 0) {
-            impares.push_back(i); // Separa ele no conjunto
+            auto impar = make_pair(i, getGrau(i));
+            impares.push_back(impar); // Separa ele no conjunto
         }
     }
 
@@ -48,11 +50,11 @@ void Grafo::imprimir() const {
     int numVertices = getNumVertices();
 
     for (int i = 0; i < numVertices; ++i) {
-        std::cout << "Vertice " << i << " conecta com:\n";
+        cout << "Vertice " << i << " conecta com:\n";
         for (auto& aresta : listaAdjacencia[i]) {
             int vizinho = aresta.first;
             int peso = aresta.second;
-            std::cout << "  -> " << vizinho << " (peso: " << peso << ")\n";
+            cout << "  -> " << vizinho << " (peso: " << peso << ")\n";
         }
     }
 }
