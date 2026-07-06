@@ -70,3 +70,5 @@ Testing/
 # arquivos gerados pelo plotGrafos
 *.dot
 *.png
+
+.gitignore
