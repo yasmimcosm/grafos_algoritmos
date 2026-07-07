@@ -5,7 +5,7 @@ import pandas as pd
 
 # CONFIGURAÇÃO DOS TESTES
 # Vamos testar o grafo aumentando de 10 até 500 vértices
-valores_vertices = [10, 50, 100, 200, 300, 400, 500, 1000, 5000]
+valores_vertices = [10, 50, 100, 200, 300, 400, 500, 1000, 5000, 10000]
 tempos = []
 
 print("Iniciando a comparação computacional...")
