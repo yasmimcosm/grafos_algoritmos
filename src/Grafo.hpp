@@ -27,7 +27,7 @@ public:
     int getGrau(int vertice) const;
 
     // Retorna uma lista com os vértices adjacentes
-    const vector<pair<int, int>> getVerticesImpares() const;
+    const vector<int> getVerticesImpares() const;
 
     // retorna a listaAdjacência mais atual
     const vector<vector<pair<int, int>>>& getListaAdjacencia() const;

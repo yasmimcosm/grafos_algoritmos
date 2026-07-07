@@ -9,22 +9,23 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
     srand(time(NULL));
 
-    Grafo g = GeradorGrafo::gerarGrafo(50,100, 1, 50);
+    // VALORES PADRÃO (caso você rode na mão sem passar parâmetros)
+    int vertices = 10;
+    int arestas = 15;
 
-    cout << "Grafo aleatorio gerado com sucesso!" << endl;
+    // SE O SCRIPT PYTHON PASSAR ARGUMENTOS, ELES ENTRAM AQUI:
+    if (argc >= 3) {
+        vertices = std::atoi(argv[1]);
+        arestas = std::atoi(argv[2]);
+    }
 
-    // 2.1 - Encontrar vertices impares
-    vector<pair<int, int>> impares = g.getVerticesImpares();
+    Grafo g = GeradorGrafo::gerarGrafo(vertices, arestas, 1, 17);
 
-    cout << "\nVertices impares detectados: { ";
-    for(auto v : impares)
-        cout << "(" << v.first << ", " << v.second << ")" << endl;
-    cout << "}" << endl;
+    vector<int> impares = g.getVerticesImpares();
 
-    // 2.2 - Calcular distancias minimas
     auto dist = PccSolver::calcularDistanciasMinimas(
         g,
         impares

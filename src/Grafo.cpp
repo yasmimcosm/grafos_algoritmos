@@ -30,15 +30,14 @@ int Grafo::getGrau(int vertice) const{
 }
 
 // retorna uma lista com todos os graus impares
-const vector<pair<int, int>> Grafo::getVerticesImpares() const {
-    vector<pair<int, int>> impares;
+const vector<int> Grafo::getVerticesImpares() const {
+    vector<int> impares;
     int numVertices = getNumVertices();
 
     for (int i = 0; i < numVertices; ++i) {
         // Se o grau do vértice 'i' for ímpar
         if (getGrau(i) % 2 != 0) {
-            auto impar = make_pair(i, getGrau(i));
-            impares.push_back(impar); // Separa ele no conjunto
+            impares.push_back(i); // Separa ele no conjunto
         }
     }
 
