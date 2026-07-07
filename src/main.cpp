@@ -95,12 +95,29 @@ int main() {
         );
     }
 
+    vector<int> imparesRestantes = g.getVerticesImpares();
+
+    cout << "\nVertices impares apos a duplicacao: { ";
+
+    for (int v : imparesRestantes)
+        cout << v << " ";
+
+    cout << "}" << endl;
     cout << "\nArestas duplicadas com sucesso!" << endl;
 
     // 2.5 - Circuito Euleriano
 
+    int inicio = 0;
+
+    for (int i = 0; i < g.getNumVertices(); i++) {
+        if (g.getGrau(i) > 0) {
+            inicio = i;
+            break;
+        }
+    }
+
     vector<int> circuito =
-        PccSolver::circuitoEuleriano(g, 0);
+        PccSolver::circuitoEuleriano(g, inicio);
 
     cout << "\nCircuito Euleriano encontrado:\n";
 
