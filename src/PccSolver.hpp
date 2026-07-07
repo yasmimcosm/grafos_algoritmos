@@ -1,4 +1,4 @@
-3#ifndef PCCSOLVER_HPP
+#ifndef PCCSOLVER_HPP
 #define PCCSOLVER_HPP
 
 #include <vector>

@@ -17,11 +17,11 @@ int main() {
     cout << "Grafo aleatorio gerado com sucesso!" << endl;
 
     // 2.1 - Encontrar vertices impares
-    vector<int> impares = g.getVerticesImpares();
+    vector<pair<int, int>> impares = g.getVerticesImpares();
 
     cout << "\nVertices impares detectados: { ";
-    for(int v : impares)
-        cout << v << " ";
+    for(auto v : impares)
+        cout << "(" << v.first << ", " << v.second << ")" << endl;
     cout << "}" << endl;
 
     // 2.2 - Calcular distancias minimas

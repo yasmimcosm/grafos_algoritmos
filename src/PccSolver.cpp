@@ -1,24 +1,24 @@
 #include "PccSolver.hpp"
-
 #include <queue>
 #include <functional>
+using namespace std;
 
 namespace PccSolver {
 
     // Dijkstra
-    std::vector<long long> dijkstra(
+    vector<long long> dijkstra(
         int origem,
-        const std::vector<std::vector<std::pair<int, int>>>& grafo
+        const vector<vector<pair<int, int>>>& grafo
     ) {
         int n = grafo.size();
 
-        std::vector<long long> dist(n, INF);
+        vector<long long> dist(n, INF);
         dist[origem] = 0;
 
-        std::priority_queue<
-            std::pair<long long, int>,
-            std::vector<std::pair<long long, int>>,
-            std::greater<std::pair<long long, int>>
+        priority_queue<
+            pair<long long, int>,
+            vector<pair<long long, int>>,
+            greater<pair<long long, int>>
         > fila;
 
         fila.push({0, origem});
@@ -49,15 +49,15 @@ namespace PccSolver {
     }
 
     // 2.2 - Calcular distâncias mínimas entre os vértices ímpares
-    std::vector<std::vector<long long>>
+    vector<vector<long long>>
     calcularDistanciasMinimas(
         const Grafo& g,
-        const std::vector<int>& impares
+        const vector<int>& impares
     ) {
         int n = impares.size();
 
-        std::vector<std::vector<long long>>
-            distancias(n, std::vector<long long>(n, INF));
+        vector<vector<long long>>
+            distancias(n, vector<long long>(n, INF));
 
         for (int i = 0; i < n; i++) {
 
@@ -75,15 +75,15 @@ namespace PccSolver {
     }
 
     // 2.3 - Emparelhamento (versão gulosa)
-    std::vector<std::pair<int,int>>
+    vector<pair<int,int>>
     emparelhamentoMinimo(
-        const std::vector<int>& impares,
-        const std::vector<std::vector<long long>>& dist
+        const vector<int>& impares,
+        const vector<vector<long long>>& dist
     ) {
         int n = impares.size();
 
-        std::vector<bool> usado(n, false);
-        std::vector<std::pair<int,int>> pares;
+        vector<bool> usado(n, false);
+        vector<pair<int,int>> pares;
 
         while (true) {
 
