@@ -72,7 +72,10 @@ int main() {
          << endl;
     
     // 2.4 - Duplicação das arestas
-    for (auto [origem, destino] : pares) {
+    for (auto par : pares) {
+
+        int origem = par.first;
+        int destino = par.second;
 
         vector<int> pai;
 

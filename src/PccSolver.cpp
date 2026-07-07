@@ -30,13 +30,18 @@ namespace PccSolver {
 
         while (!fila.empty()) {
 
-            auto [distAtual, u] = fila.top();
+            pair<long long, int> atual = fila.top();
+            long long distAtual = atual.first;
+            int u = atual.second;
             fila.pop();
 
             if (distAtual > dist[u])
                 continue;
 
-            for (auto [v, peso] : grafo[u]) {
+            for (auto aresta : grafo[u]) {
+
+                int v = aresta.first;
+                int peso = aresta.second;
 
                 if (dist[u] + peso < dist[v]) {
 
@@ -160,7 +165,10 @@ namespace PccSolver {
         int u,
         int v
     ){
-      for (auto [vizinho, peso] : g.getListaAdjacencia()[u]) {
+    for (auto aresta : g.getListaAdjacencia()[u]) {
+
+        int vizinho = aresta.first;
+        int peso = aresta.second;
 
           if (vizinho == v)
               return peso;
