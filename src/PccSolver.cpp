@@ -8,12 +8,15 @@ namespace PccSolver {
     // Dijkstra
     vector<long long> dijkstra(
         int origem,
-        const vector<vector<pair<int, int>>>& grafo
+        const vector<vector<pair<int, int>>>& grafo,
+        vector<int>& pai// será preenchido durante a execução
     ) {
         int n = grafo.size();
 
         vector<long long> dist(n, INF);
         dist[origem] = 0;
+
+        pai.assign(n,-1);
 
         priority_queue<
             pair<long long, int>,
@@ -36,6 +39,8 @@ namespace PccSolver {
                 if (dist[u] + peso < dist[v]) {
 
                     dist[v] = dist[u] + peso;
+
+                    pai[v] = u;// Guarda de qual vértice viemos para alcançar 'v'
 
                     fila.push({
                         dist[v],
@@ -61,9 +66,12 @@ namespace PccSolver {
 
         for (int i = 0; i < n; i++) {
 
+            vector<int> pai;
+
             auto dist = dijkstra(
                 impares[i],
-                g.getListaAdjacencia()
+                g.getListaAdjacencia(),
+                pai
             );
 
             for (int j = 0; j < n; j++) {
@@ -124,5 +132,57 @@ namespace PccSolver {
 
         return pares;
     }
+
+    // 2.4 Duplicação de arestas
+    vector<int> reconstruirCaminho(
+        int origem,
+        int destino,
+        const vector<int>& pai
+    ) {
+        vector<int> caminho;
+
+        int atual = destino;
+
+        while (atual != -1) {
+          caminho.push_back(atual);
+           atual = pai[atual];
+        }
+
+        reverse(caminho.begin(), caminho.end());
+
+        return caminho;
+    }
+
+    int obterPesoAresta(
+        const Grafo& g,
+        int u,
+        int v
+    ){
+      for (auto [vizinho, peso] : g.getListaAdjacencia()[u]) {
+
+          if (vizinho == v)
+              return peso;
+        }
+
+        return -1;
+    }
+
+    void duplicarArestas(
+        Grafo& g,
+        const vector<int>& caminho
+    ) {
+        // Percorre cada aresta pertencente ao caminho mínimo.
+        for (int i = 0; i < caminho.size() - 1; i++) {
+
+            int u = caminho[i];
+            int v = caminho[i + 1];
+
+            int peso = obterPesoAresta(g, u, v);
+
+            g.adicionarAresta(u, v, peso);
+        }
+    }
+
+
 
 }
