@@ -1,6 +1,8 @@
 #include "PccSolver.hpp"
 #include <queue>
 #include <functional>
+#include <stack>
+#include <algorithm>
 using namespace std;
 
 namespace PccSolver {
@@ -184,5 +186,70 @@ namespace PccSolver {
     }
 
 
+    // 2.5: Encontrar o circuito euleriano - Implementação do Algoritmo de Heilzor
+    void removerAresta(
+        vector<vector<pair<int,int>>>& lista,
+        int u,
+        int v
+    ) {
+
+        // Remove (v, peso) da lista de u
+        for (auto it = lista[u].begin(); it != lista[u].end(); ++it) {
+
+            if (it->first == v) {
+                lista[u].erase(it);
+                break;
+            }
+        }
+
+        // Remove (u, peso) da lista de v
+        for (auto it = lista[v].begin(); it != lista[v].end(); ++it) {
+
+            if (it->first == u) {
+                lista[v].erase(it);
+                break;
+            }
+        }
+    }
+
+    
+    vector<int> circuitoEuleriano(
+        const Grafo& g,
+        int inicio
+    ) {
+
+        // cópia da lista de adjacência
+        auto lista = g.getListaAdjacencia();
+
+        stack<int> pilha;
+        vector<int> circuito;
+
+        pilha.push(inicio);
+
+        while (!pilha.empty()) {
+
+            int u = pilha.top();
+
+            if (!lista[u].empty()) {
+
+                int v = lista[u].back().first;
+
+                removerAresta(lista, u, v);
+
+                pilha.push(v);
+            }
+
+            else {
+
+                circuito.push_back(u);
+
+                pilha.pop();
+            }
+        }
+
+        reverse(circuito.begin(), circuito.end());
+
+        return circuito;
+    }
 
 }
