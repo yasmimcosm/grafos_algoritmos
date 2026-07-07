@@ -72,6 +72,64 @@ int main(int argc, char* argv[]) {
     cout << "\nCusto total do emparelhamento: "
          << custoTotal
          << endl;
+    
+    // 2.4 - Duplicação das arestas
+    for (auto par : pares) {
+
+        int origem = par.first;
+        int destino = par.second;
+
+        vector<int> pai;
+
+        PccSolver::dijkstra(
+            origem,
+            g.getListaAdjacencia(),
+            pai
+        );
+
+        vector<int> caminho =
+            PccSolver::reconstruirCaminho(
+                origem,
+                destino,
+                pai
+            );
+
+        PccSolver::duplicarArestas(
+            g,
+            caminho
+        );
+    }
+
+    vector<int> imparesRestantes = g.getVerticesImpares();
+
+    cout << "\nVertices impares apos a duplicacao: { ";
+
+    for (int v : imparesRestantes)
+        cout << v << " ";
+
+    cout << "}" << endl;
+    cout << "\nArestas duplicadas com sucesso!" << endl;
+
+    // 2.5 - Circuito Euleriano
+
+    int inicio = 0;
+
+    for (int i = 0; i < g.getNumVertices(); i++) {
+        if (g.getGrau(i) > 0) {
+            inicio = i;
+            break;
+        }
+    }
+
+    vector<int> circuito =
+        PccSolver::circuitoEuleriano(g, inicio);
+
+    cout << "\nCircuito Euleriano encontrado:\n";
+
+    for (int v : circuito)
+        cout << v << " ";
+
+    cout << endl;
 
     return 0;
 }

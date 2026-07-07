@@ -2,40 +2,53 @@
 
 #include <queue>
 #include <functional>
+#include <stack>
+#include <algorithm>
+using namespace std;
 
 namespace PccSolver {
 
     // Dijkstra
     std::vector<long long> dijkstra(
         int origem,
-        const std::vector<std::vector<std::pair<int, int>>>& grafo
+        const vector<vector<pair<int, int>>>& grafo,
+        vector<int>& pai// será preenchido durante a execução
     ) {
         int n = grafo.size();
 
         std::vector<long long> dist(n, INF);
         dist[origem] = 0;
 
-        std::priority_queue<
-            std::pair<long long, int>,
-            std::vector<std::pair<long long, int>>,
-            std::greater<std::pair<long long, int>>
+        pai.assign(n,-1);
+
+        priority_queue<
+            pair<long long, int>,
+            vector<pair<long long, int>>,
+            greater<pair<long long, int>>
         > fila;
 
         fila.push({0, origem});
 
         while (!fila.empty()) {
 
-            auto [distAtual, u] = fila.top();
+            pair<long long, int> atual = fila.top();
+            long long distAtual = atual.first;
+            int u = atual.second;
             fila.pop();
 
             if (distAtual > dist[u])
                 continue;
 
-            for (auto [v, peso] : grafo[u]) {
+            for (auto aresta : grafo[u]) {
+
+                int v = aresta.first;
+                int peso = aresta.second;
 
                 if (dist[u] + peso < dist[v]) {
 
                     dist[v] = dist[u] + peso;
+
+                    pai[v] = u;// Guarda de qual vértice viemos para alcançar 'v'
 
                     fila.push({
                         dist[v],
@@ -61,9 +74,12 @@ namespace PccSolver {
 
         for (int i = 0; i < n; i++) {
 
+            vector<int> pai;
+
             auto dist = dijkstra(
                 impares[i],
-                g.getListaAdjacencia()
+                g.getListaAdjacencia(),
+                pai
             );
 
             for (int j = 0; j < n; j++) {
@@ -123,6 +139,126 @@ namespace PccSolver {
         }
 
         return pares;
+    }
+
+    // 2.4 Duplicação de arestas
+    vector<int> reconstruirCaminho(
+        int origem,
+        int destino,
+        const vector<int>& pai
+    ) {
+        vector<int> caminho;
+
+        int atual = destino;
+
+        while (atual != -1) {
+          caminho.push_back(atual);
+           atual = pai[atual];
+        }
+
+        reverse(caminho.begin(), caminho.end());
+
+        return caminho;
+    }
+
+    int obterPesoAresta(
+        const Grafo& g,
+        int u,
+        int v
+    ){
+    for (auto aresta : g.getListaAdjacencia()[u]) {
+
+        int vizinho = aresta.first;
+        int peso = aresta.second;
+
+          if (vizinho == v)
+              return peso;
+        }
+
+        return -1;
+    }
+
+    void duplicarArestas(
+        Grafo& g,
+        const vector<int>& caminho
+    ) {
+        // Percorre cada aresta pertencente ao caminho mínimo.
+        for (int i = 0; i < caminho.size() - 1; i++) {
+
+            int u = caminho[i];
+            int v = caminho[i + 1];
+
+            int peso = obterPesoAresta(g, u, v);
+
+            g.adicionarAresta(u, v, peso);
+        }
+    }
+
+
+    // 2.5: Encontrar o circuito euleriano - Implementação do Algoritmo de Heilzor
+    void removerAresta(
+        vector<vector<pair<int,int>>>& lista,
+        int u,
+        int v
+    ) {
+
+        // Remove (v, peso) da lista de u
+        for (auto it = lista[u].begin(); it != lista[u].end(); ++it) {
+
+            if (it->first == v) {
+                lista[u].erase(it);
+                break;
+            }
+        }
+
+        // Remove (u, peso) da lista de v
+        for (auto it = lista[v].begin(); it != lista[v].end(); ++it) {
+
+            if (it->first == u) {
+                lista[v].erase(it);
+                break;
+            }
+        }
+    }
+
+    
+    vector<int> circuitoEuleriano(
+        const Grafo& g,
+        int inicio
+    ) {
+
+        // cópia da lista de adjacência
+        auto lista = g.getListaAdjacencia();
+
+        stack<int> pilha;
+        vector<int> circuito;
+
+        pilha.push(inicio);
+
+        while (!pilha.empty()) {
+
+            int u = pilha.top();
+
+            if (!lista[u].empty()) {
+
+                int v = lista[u].back().first;
+
+                removerAresta(lista, u, v);
+
+                pilha.push(v);
+            }
+
+            else {
+
+                circuito.push_back(u);
+
+                pilha.pop();
+            }
+        }
+
+        reverse(circuito.begin(), circuito.end());
+
+        return circuito;
     }
 
 }
